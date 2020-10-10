@@ -9,8 +9,9 @@
 
     <script type="text/javascript">
       function initialize() {
-        var k = 1;
-        var extent = [-784*k, -783*k, 784*k, 783*k];
+        var k = 5;
+        var side = 784
+        var extent = [-side*k, -side*k, side*k, side*k];
         var projection = new ol.proj.Projection({
           code: 'decentraland-images',
           units: 'm',
@@ -31,7 +32,7 @@
 				],
         view: new ol.View({
             projection: projection,
-            center: [-100,-100],
+            center: [-100,120],
             zoom: 5,
             minZoom: 5,
             maxZoom: 5,
