@@ -9,33 +9,42 @@
 
     <script type="text/javascript">
       function initialize() {
-        var k = 5;
-        var side = 784
-        var extent = [-side*k, -side*k, side*k, side*k];
+        var zoom = 8;
+        var side = 800
+        var extent = [0, 0, zoom*side*2, zoom*side*2];
+        var center = [zoom*side+400/8/2, zoom*side-400/8/2];
+        console.log(center)
         var projection = new ol.proj.Projection({
           code: 'decentraland-images',
-          units: 'm',
+          units: 'pixels',
           extent: extent,
-          global: true,
         });
+        var resolutions = [];
+        for (var i = 0; i <= 8; ++i) {
+          resolutions.push(zoom*side*2/Math.pow(2, i));
+        }
         var map = new ol.Map({
         target: 'map',
-				layers: [
-					new ol.layer.Tile({
-						source: new ol.source.TileImage({
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.TileImage({
               url: 'map/{z},{x},{y}.png',
-						}),
-					}), 
-          //new ol.layer.Tile({
-          //   source: new ol.source.TileDebug(),
-          //})
-				],
+              tilePixelRatio: 4,
+              wrapX: false,
+            }),
+          }), 
+          /*
+          new ol.layer.Tile({
+             source: new ol.source.TileDebug(),
+          })
+          */
+        ],
         view: new ol.View({
             projection: projection,
-            center: [-100,120],
-            zoom: 5,
-            minZoom: 5,
-            maxZoom: 5,
+            center: center, //ol.extent.getCenter(extent),
+            zoom: zoom,
+            minZoom: zoom,
+            maxZoom: zoom,
           })
         });
       }

@@ -5,9 +5,13 @@ import shutil
 def main():
     for count, filename in enumerate(os.listdir("raw")):
         print(filename)
-        pad = 15
+        if 'DS_Store' in filename:
+            continue
+        n = 5
+        zoom = 8
+        pad = (2**zoom) / 2
         x, y = tuple(int(d) for d in filename.split(".")[0].split(","))
-        dst = "5," + str(pad+(x//5)) + "," + str(pad-(y//5)) + ".png"
+        dst = str(zoom)+"," + str(pad+(x//n)) + "," + str(pad-(y//n)) + ".png"
         src = 'raw/' + filename
         dst = 'map/' + dst
         print(src, "->", dst)
