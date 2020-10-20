@@ -13,7 +13,7 @@
         var side = 800
         var extent = [0, 0, zoom*side*2, zoom*side*2];
         var center = [zoom*side+400/8/2, zoom*side-400/8/2];
-        console.log(center)
+        //console.log(center)
         var projection = new ol.proj.Projection({
           code: 'decentraland-images',
           units: 'pixels',
@@ -24,28 +24,36 @@
           resolutions.push(zoom*side*2/Math.pow(2, i));
         }
         var map = new ol.Map({
-        target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.TileImage({
-              url: 'map/{z},{x},{y}.png',
-              tilePixelRatio: 4,
-              wrapX: false,
-            }),
-          }), 
-          /*
-          new ol.layer.Tile({
-             source: new ol.source.TileDebug(),
-          })
-          */
-        ],
-        view: new ol.View({
-            projection: projection,
-            center: center, //ol.extent.getCenter(extent),
-            zoom: zoom,
-            minZoom: zoom,
-            maxZoom: zoom,
-          })
+          target: 'map',
+          layers: [
+            new ol.layer.Tile({
+              source: new ol.source.TileImage({
+                url: 'map/{z},{x},{y}.png',
+                tilePixelRatio: 4,
+                wrapX: false,
+              }),
+            }), 
+            /*
+            new ol.layer.Tile({
+               source: new ol.source.TileDebug(),
+            })
+            */
+          ],
+          view: new ol.View({
+              projection: projection,
+              center: center, //ol.extent.getCenter(extent),
+              zoom: zoom,
+              minZoom: zoom,
+              maxZoom: zoom,
+            })
+        });
+        var selected = null;
+        map.on('pointermove', function (e) {
+          if (selected !== null) {
+              selected.setStyle(undefined);
+              selected = null;
+          }
+          console.log(e);
         });
       }
     </script>
