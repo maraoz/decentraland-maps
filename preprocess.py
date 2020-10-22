@@ -8,12 +8,12 @@ def main():
         if 'DS_Store' in filename:
             continue
         n = 5
-        zoom = 8
-        pad = (2**zoom) / 2
+        zoom = 6
+        pad = 30 #(2**zoom) / 2
         x, y = tuple(int(d) for d in filename.split(".")[0].split(","))
-        dst = str(zoom)+"," + str(pad+(x//n)) + "," + str(pad-(y//n)) + ".png"
+        dst = str(int(pad+(x//n))) + "," + str(int(pad-(y//n))) + ".png"
         src = 'raw/' + filename
-        dst = 'map/' + dst
+        dst = 'map/' + str(zoom) + "/" + dst
         print(src, "->", dst)
         shutil.copy(src, dst)
 if __name__ == '__main__':
