@@ -67,7 +67,7 @@
         map.on('pointermove', function(event) {
           let x = Math.round(map_range(event.coordinate[0], extent[0], extent[2], dclExtent[0], dclExtent[2]) - n/2);
           let y = Math.round(map_range(event.coordinate[1], extent[1], extent[3], dclExtent[1], dclExtent[3]) + n/2);
-          document.getElementById('coords').innerHTML = `${x}, ${y}`
+          document.getElementById('coords').innerHTML = `(${x}, ${y})`
         });
       }
     </script>
