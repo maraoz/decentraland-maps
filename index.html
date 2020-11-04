@@ -11,13 +11,13 @@
       var zoom = 6;
       var side = 400
       var n = 5;
-      var extent = [0, 0, side*30*2, side*30*2];
-      var dclExtent = [-150, -150, 150, 150];
-      var center = [side*30+side/2, side*30-side/2];
-      var origin = [side*0, side * 60];
+      var tiles = 61;
+      var extent = [0, 0, side*tiles, side*tiles];
+      var dclExtent = [-150-n/2, -150-n/2, 150+n/2, 150+n/2];
+      var origin = [side*0, side * tiles];
 
       function map_range (value, in_min, in_max, out_min, out_max) {
-        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        return (value+side/n/2 - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
       } 
 
       function initialize() {
@@ -34,6 +34,8 @@
         for (var i = 0; i <= 5; ++i) {
           viewResolutions.push(side/Math.pow(2, 3+i))
         }
+        //console.log(resolutions);
+        //console.log(viewResolutions);
         var map = new ol.Map({
           target: 'map',
           layers: [
@@ -58,16 +60,19 @@
           ],
           view: new ol.View({
               projection: projection,
-              center: center, //ol.extent.getCenter(extent),
+              center: ol.extent.getCenter(extent),
               resolutions: viewResolutions,
               zoom: 4,
               minZoom: 2,
             })
         });
         map.on('pointermove', function(event) {
-          let x = Math.round(map_range(event.coordinate[0], extent[0], extent[2], dclExtent[0], dclExtent[2]) - n/2);
-          let y = Math.round(map_range(event.coordinate[1], extent[1], extent[3], dclExtent[1], dclExtent[3]) + n/2);
-          document.getElementById('coords').innerHTML = `(${x}, ${y})`
+          let x = (map_range(event.coordinate[0], extent[0], extent[2], dclExtent[0], dclExtent[2]));
+          let y = (map_range(event.coordinate[1], extent[1], extent[3], dclExtent[1], dclExtent[3]));
+          let xf = 1 * Math.floor((x));
+          let yf = 1 * Math.floor((y));
+          //document.getElementById('coords').innerHTML = `(${xf}, ${yf}) / ${x}, ${y}`
+          document.getElementById('coords').innerHTML = `(${xf}, ${yf})`
         });
       }
     </script>
@@ -112,7 +117,7 @@
     </div>
     <div id="coords"></div>
     <div id="date">
-      last updated Oct 20, 2020.
+      last updated Nov 4, 2020.
     </div>
   </body>
 </html>
